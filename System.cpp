@@ -1,7 +1,6 @@
-#include "system.h"
+#include "System.h"
 
-System::System()
+double System::computeDerivative (double t, double y) const
 {
-
+	return t;
 }
-

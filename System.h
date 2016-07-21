@@ -5,11 +5,7 @@
 class System
 {
 public:
-	System();
-
-signals:
-
-public slots:
+	double computeDerivative (double t, double y) const;
 };
 
 #endif // SYSTEM_H
