@@ -1,26 +1,28 @@
 #include <iostream>
 
 
-#include "EulerSolver.h"
+#include "Solver.h"
 
 
 int main()
 {
-	System system;
-	EulerSolver eulerSolver;
-
+	// for
 	double yInitial = 4.0;
 	double a = 2.0;
 	double b = 10.0;
 	double h = 0.01;
-	std::vector <double> state;
+	int    nSteps = int((b - a) / h);
 
-	eulerSolver.solve(system, state, a, b, h, yInitial);
+	System system;
+	State  state(1, 1, nSteps);
+	EulerSolver(system, state, a, b, h, yInitial);
 
-	int nSteps = int((b -a ) / h);
-	for (int i = 0; i < nSteps; i++)
-	{
-		std::cout << state[i] << std::endl;
+	for (int i = 0; i < nSteps; i++) {
+	  eulerSolver.solve();
+	}
+
+	for (int i = 0; i < nSteps; i++) {
+	  std::cout << state(1, 1, i) << std::endl;
 	}
 	return 0;
 }

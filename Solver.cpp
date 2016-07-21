@@ -1,20 +1,21 @@
-#include "EulerSolver.h"
+#include "Solver.h"
 
-EulerSolver::EulerSolver()
+
+Solver::Solver(const System & system, State & state,
+			   double a, double b, double h, double yInitial) :
+			system(system)
 {
-
+	this->a = a;
+	this->b = b;
+	this->h = h;
+	this->yInitial = yInitial;
+	this->a = a;
+	this->state = state;
 }
 
-void EulerSolver::solve(const System & system, std::vector <double> & state,
-				  double a, double b, double h, double yInitial)
+
+EulerSolver::solve
 {
-	int nSteps = int((b - a) / h);
-
-	state.reserve(nSteps);
-	state.push_back(yInitial);
-
-	for (int i = 1; i < nSteps; i++)
-	{
-	state[i] = state[i-1] + h * system.computeDerivative((a + (i - 1) * h),state[i-1]);
-	}
+	  state[i] = state[i-1] +
+				 h * system.computeDerivative((a + (i - 1) * h),state[i-1]);
 }

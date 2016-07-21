@@ -4,10 +4,12 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    EulerSolver.cpp \
-    System.cpp
+    System.cpp \
+    State.cpp \
+    Solver.cpp
 
 HEADERS += \
-    EulerSolver.h \
-    System.h
+    System.h \
+    State.h \
+    Solver.h
 
