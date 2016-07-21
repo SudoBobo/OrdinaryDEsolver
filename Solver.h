@@ -15,7 +15,7 @@ public:
 				double a, double b, double h, double yInitial);
 
 protected:
-	int            a, b, h, yInitial;
+	double            a, b, h, yInitial;
 	int            currentPosition;
 	const System & system;
 	State &        state;
