@@ -9,21 +9,24 @@
 class Solver
 {
 public:
-	virtual void solve() const;
-	void Solver(const System & system, std::vector <double> & state,
+	virtual void solve() = 0;
+	virtual	~Solver();
+	Solver(const System & system, State & state,
 				double a, double b, double h, double yInitial);
 
 protected:
 	int            a, b, h, yInitial;
-	State &        state;
+	int            currentPosition;
 	const System & system;
+	State &        state;
 };
 
 class EulerSolver : public Solver
 {
-	void solve() const;
-
-
+public:
+	void solve();
+	EulerSolver(const System & system, State & state,
+							 double a, double b, double h, double yInitial);
 };
 
 //class RungeKuttaSolver : public Solver
