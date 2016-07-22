@@ -8,7 +8,8 @@ class RungeKuttaSolver : public Solver
 public:
 	void solve();
 	RungeKuttaSolver(const System & system, State & state,
-							 double a, double b, double h, double yInitial);
+	                         double a, double b, double h,
+	                         const std::vector<double> & yInitial);
 };
 
 #endif // RUNGEKUTTASOLVER_H

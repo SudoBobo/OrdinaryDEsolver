@@ -8,7 +8,8 @@ class EulerSolver : public Solver
 public:
 	void solve();
 	EulerSolver(const System & system, State & state,
-							 double a, double b, double h, double yInitial);
+	                         double a, double b, double h,
+	                         const std::vector<double> & yInitial);
 };
 
 #endif // EULERSOLVER_H

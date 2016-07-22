@@ -8,13 +8,14 @@ Solver::~Solver()
 }
 
 Solver::Solver(const System & system, State & state,
-			   double a, double b, double h, double yInitial) :
-			system(system), state(state)
+               double a, double b, double h, const vector <double> & yInitial) :
+            system(system), state(state)
 {
 	this->a = a;
 	this->b = b;
 	this->h = h;
 	this->yInitial = yInitial;
-	this->state(0, 0, 0) = yInitial;
+	for (int j = 0; j <= state.jMax(); j++)
+		this->state(0, j, 0) = yInitial[j];
 	this->currentPosition = 0;
 }
