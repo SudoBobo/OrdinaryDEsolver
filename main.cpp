@@ -6,10 +6,10 @@
 
 int main()
 {
-	double yInitial = 4.0;
+	double yInitial = 2.0;
 	double a = 2.0;
 	double b = 10.0;
-	double h = 0.000001;
+	double h = 0.0001;
 	int    nSteps = int((b - a) / h);
 
 	System system;
@@ -17,8 +17,8 @@ int main()
 	RungeKuttaSolver rungeKuttaSolver(system, state, a, b, h, yInitial);
 	EulerSolver eulerSolver (system, state, a, b, h, yInitial);
 	for (int i = 0; i < nSteps; i++) {
-	  eulerSolver.solve();
-	//rungeKuttaSolver.solve();
+	//eulerSolver.solve();
+	rungeKuttaSolver.solve();
 	}
 
 	for (int i = 0; i < nSteps; i++) {
