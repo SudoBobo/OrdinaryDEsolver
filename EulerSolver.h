@@ -1,15 +1,14 @@
 #ifndef EULERSOLVER_H
 #define EULERSOLVER_H
 
+#include "Solver.h"
 
-class EulerSolver
+class EulerSolver : public Solver
 {
 public:
-	EulerSolver();
-
-signals:
-
-public slots:
+	void solve();
+	EulerSolver(const System & system, State & state,
+							 double a, double b, double h, double yInitial);
 };
 
 #endif // EULERSOLVER_H

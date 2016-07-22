@@ -6,10 +6,14 @@ CONFIG -= qt
 SOURCES += main.cpp \
     System.cpp \
     State.cpp \
-    Solver.cpp
+    Solver.cpp \
+    EulerSolver.cpp \
+    RungeKuttaSolver.cpp
 
 HEADERS += \
     System.h \
     State.h \
-    Solver.h
+    Solver.h \
+    EulerSolver.h \
+    RungeKuttaSolver.h
 

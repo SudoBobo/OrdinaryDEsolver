@@ -1,8 +1,8 @@
 #include <iostream>
 
-
 #include "Solver.h"
-
+#include "EulerSolver.h"
+#include "RungeKuttaSolver.h"
 
 int main()
 {
@@ -17,8 +17,8 @@ int main()
 	RungeKuttaSolver rungeKuttaSolver(system, state, a, b, h, yInitial);
 	EulerSolver eulerSolver (system, state, a, b, h, yInitial);
 	for (int i = 0; i < nSteps; i++) {
-	//eulerSolver.solve();
-	rungeKuttaSolver.solve();
+	//  eulerSolver.solve();
+	  rungeKuttaSolver.solve();
 	}
 
 	for (int i = 0; i < nSteps; i++) {
@@ -27,4 +27,3 @@ int main()
 
 	return 0;
 }
-

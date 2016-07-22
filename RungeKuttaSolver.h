@@ -1,15 +1,14 @@
 #ifndef RUNGEKUTTASOLVER_H
 #define RUNGEKUTTASOLVER_H
 
+#include "Solver.h"
 
-class RungeKuttaSolver
+class RungeKuttaSolver : public Solver
 {
 public:
-	RungeKuttaSolver();
-
-signals:
-
-public slots:
+	void solve();
+	RungeKuttaSolver(const System & system, State & state,
+							 double a, double b, double h, double yInitial);
 };
 
 #endif // RUNGEKUTTASOLVER_H
