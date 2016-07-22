@@ -29,10 +29,13 @@ public:
 							 double a, double b, double h, double yInitial);
 };
 
-//class RungeKuttaSolver : public Solver
-//{
-//	void solve() const;
-//};
+class RungeKuttaSolver : public Solver
+{
+public:
+	void solve();
+	RungeKuttaSolver(const System & system, State & state,
+							 double a, double b, double h, double yInitial);
+};
 
 
 
