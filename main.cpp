@@ -11,7 +11,7 @@ int main()
 	double a = 0.0;
 	double b = 1.0;
 
-	double h = 0.0000001;
+	double h = 0.00001;
 
 	int    nSteps = int((b - a) / h);
 
