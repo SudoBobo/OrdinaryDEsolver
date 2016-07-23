@@ -6,9 +6,14 @@
 
 class System
 {
+protected:
+	int nEquations = 2;
 public:
-	double computeDerivativeNo0 (double t, const std::vector <double> & y) const;
-	double computeDerivativeNo1 (double t, const std::vector <double> & y) const;
+	System();
+	static double computeDerivativeNo0 (double t,
+										 std::vector <double> & y);
+	static double computeDerivativeNo1 (double t,
+										 std::vector <double> & y);
+	std::vector <double (*) (double, std::vector<double> &) > functions;
 };
-
 #endif // SYSTEM_H

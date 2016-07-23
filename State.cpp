@@ -3,17 +3,17 @@
 
 
 
-State::State(int iMax, int jMax, int kMax)
+State::State(int iSize, int jSize, int kSize)
 {
-	this->m_iMax = iMax;
-	this->m_jMax = jMax;
-	this->m_kMax = kMax;
+	this->m_iSize = iSize;
+	this->m_jSize = jSize;
+	this->m_kSize = kSize;
 
-	m_state = new double** [m_iMax];
-	for (int i = 0; i < m_iMax; i++) {
-		  m_state[i] = new double* [m_jMax];
-		  for (int j = 0; j < m_jMax; j++) {
-			  m_state[i][j] = new double[m_kMax];
+	m_state = new double** [m_iSize];
+	for (int i = 0; i < m_iSize; i++) {
+		  m_state[i] = new double* [m_jSize];
+		  for (int j = 0; j < m_jSize; j++) {
+			  m_state[i][j] = new double[m_kSize];
 		  }
 	}
 
@@ -21,7 +21,7 @@ State::State(int iMax, int jMax, int kMax)
 
 double State::operator()(int i, int j, int k) const
 {
-	if((i > m_iMax) || (j > m_jMax) || (k > m_kMax) ||(i < 0)||(j<0)
+	if((i > m_iSize) || (j > m_jSize) || (k > m_kSize) ||(i < 0)||(j<0)
 																	||(k <0))
 		throw std::range_error("Try to get an access to point that doesn't exist");
 
@@ -30,7 +30,7 @@ double State::operator()(int i, int j, int k) const
 
 double & State::operator()(int i, int j, int k)
 {
-	if((i > m_iMax) || (j > m_jMax) || (k > m_kMax) || (i <0)||(j <0)
+	if((i > m_iSize) || (j > m_jSize) || (k > m_kSize) || (i <0)||(j <0)
 																	 || (k<0))
 		throw std::range_error("Try to get an access to point that doesn't exist");
 
@@ -38,17 +38,17 @@ double & State::operator()(int i, int j, int k)
 }
 
 
-int State::iMax() const
+int State::iSize() const
 {
-	return m_iMax;
+	return m_iSize;
 }
 
-int State::jMax() const
+int State::jSize() const
 {
-	return m_jMax;
+	return m_jSize;
 }
 
-int State::kMax() const
+int State::kSize() const
 {
-	return m_kMax;
+	return m_kSize;
 }
