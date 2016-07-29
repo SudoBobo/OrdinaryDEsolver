@@ -7,13 +7,15 @@
 class System
 {
 protected:
-	int nEquations = 2;
 public:
-	System();
-	static double computeDerivativeNo0 (double t,
-										 std::vector <double> & y);
-	static double computeDerivativeNo1 (double t,
-										 std::vector <double> & y);
-	std::vector <double (*) (double, std::vector<double> &) > functions;
+//	System();
+//	static double computeDerivativeNo0 (double t,
+//										 std::vector <double> & y);
+//	static double computeDerivativeNo1 (double t,
+//										 std::vector <double> & y);
+//	std::vector <double (*) (double, std::vector<double> &) > functions;
+	std::vector <double> rho;
+	std::vector <double> K;
+
 };
 #endif // SYSTEM_H

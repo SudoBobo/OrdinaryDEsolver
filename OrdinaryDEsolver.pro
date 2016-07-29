@@ -8,12 +8,14 @@ SOURCES += main.cpp \
     State.cpp \
     Solver.cpp \
     EulerSolver.cpp \
-    RungeKuttaSolver.cpp
+    RungeKuttaSolver.cpp \
+    GodunovSolver.cpp
 
 HEADERS += \
     System.h \
     State.h \
     Solver.h \
     EulerSolver.h \
-    RungeKuttaSolver.h
+    RungeKuttaSolver.h \
+    GodunovSolver.h
 

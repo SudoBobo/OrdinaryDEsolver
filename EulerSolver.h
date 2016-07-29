@@ -1,15 +1,14 @@
-#ifndef EULERSOLVER_H
-#define EULERSOLVER_H
+//#ifndef EULERSOLVER_H
+//#define EULERSOLVER_H
 
-#include "Solver.h"
+//#include "Solver.h"
 
-class EulerSolver : public Solver
-{
-public:
-	void solve();
-	EulerSolver(const System & system, State & state,
-	                         double a, double b, double h,
-	                         const std::vector<double> & yInitial);
-};
+//class EulerSolver : public Solver
+//{
+//public:
+//	void solve();
+//	EulerSolver(const System & system, State & state,
+//							 double a, double b, double h);
+//};
 
-#endif // EULERSOLVER_H
+//#endif // EULERSOLVER_H
