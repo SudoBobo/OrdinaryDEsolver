@@ -45,6 +45,7 @@ int main()
 	{
 			system.rho.push_back(1000);
 			system.K.push_back(1000);
+			system.c.push_back(sqrt(1000/1000));
 	}
 
 	State initialState (nSteps, 2, 1);
@@ -65,7 +66,7 @@ int main()
 	std::vector <State> state;
 	state.push_back(initialState);
 
-//	GodunovSolver godunovSolver (system, state, a, b, h, yInitial);
+//	GodunovSolver godunovSolver (system, state, a, b, h, tau);
 //		for (int i = 0; i < nSteps; i++)
 //		{
 //		 godunovSolver.solve();
