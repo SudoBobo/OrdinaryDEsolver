@@ -6,25 +6,13 @@ GodunovSolver::GodunovSolver(const System & system, std::vector<State> & state,
 						Solver(system, state, a, b, h, tau)
 {
 	iSize = state[0].iSize();
+	tx = tau/h;
 
 }
 
 void GodunovSolver::solve()
 {
-	int currentPosition;
-	double lambdaN1;
-	double lambdaN2;
-	double alphaN1;
-	double alphaN2;
-	double wN1 [2];
-	double wN2 [2];
-	std::vector <double[2]> aMinus (iSize);
-	std::vector <double[2]> aPlus (iSize);
-	double qNext [2];
-// p
-	double deltaQN1;
-// u
-	double deltaQN2;
+
 // расчитаем "потоки" для всех клеток на данном временном слое
 
 	deltaQN1 = state[currentPosition](0, 0, 0) -
@@ -95,10 +83,21 @@ void GodunovSolver::solve()
 
 	}
 
-//	for (int i = 0; i < iSize; i++)
-//	{
-//		state[currentPosition + 1]
-//	}
+
+	state[currentPosition + 1](iSize - 1, 0, 0) = state[currentPosition](iSize - 1, 0, 0) -
+			tx * (aPlus[iSize - 1][0] + aMinus[0][0]);
+	state[currentPosition + 1](iSize - 1, 1, 0) = state[currentPosition](iSize - 1, 1, 0) -
+			tx * (aPlus[iSize - 1][1] + aMinus[0][1]);
+
+
+	for (int i = 0; i < iSize ; i++)
+	{
+		state[currentPosition + 1](i, 0, 0) = state[currentPosition](i, 0, 0) -
+				tx * (aPlus[i][0] + aMinus[i+1][0]);
+		state[currentPosition + 1](i, 1, 0) = state[currentPosition](i, 1, 0) -
+				tx * (aPlus[i][1] + aMinus[i+1][1]);
+	}
+	currentPosition++;
 }
 
 

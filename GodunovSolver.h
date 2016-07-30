@@ -18,7 +18,11 @@ protected:
 	double wN2 [2];
 	std::vector <double[2]> aMinus;
 	std::vector <double[2]> aPlus;
-	double qNext [2];
+	double lambdaN1;
+	double lambdaN2;
+	double deltaQN1;
+	double deltaQN2;
+	double tx; //t/h from (12)
 };
 
 #endif // GODUNOVSOLVER_H

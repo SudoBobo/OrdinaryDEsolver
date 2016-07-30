@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Solver.h"
+#include "GodunovSolver.h"
 //#include "EulerSolver.h"
 //#include "RungeKuttaSolver.h"
 
@@ -34,12 +35,13 @@ int main()
 
 	double a = 0.0;
 	double b = 100.0;
+	double time = 1000;
 
 	double h = 0.01;
 	double tau = 0.01;
 
 	int nSteps = int((b - a) / h);
-
+	int timeSteps = int (time/tau);
 	System system;
 	for (int i = 0; i < nSteps; i++)
 	{
@@ -63,14 +65,13 @@ int main()
 		}
 	}
 
-	std::vector <State> state;
-	state.push_back(initialState);
+	std::vector <State> state (timeSteps, initialState);
 
-//	GodunovSolver godunovSolver (system, state, a, b, h, tau);
-//		for (int i = 0; i < nSteps; i++)
-//		{
-//		 godunovSolver.solve();
-//		}
+	GodunovSolver godunovSolver (system, state, a, b, h, tau);
+		for (int t = 0; t < timeSteps; t++)
+		{
+		 godunovSolver.solve();
+		}
 
 	std::cout << "So far, so good." << std::endl;
 

@@ -9,14 +9,14 @@ class State
 public:
 	//uniform structure constructor
 	State(int iSize, int jSize, int kSize);
-
+	State(const State & anotherState);
 
 	double   operator()  (int i, int j, int k) const;
 	double & operator()  (int i, int j, int k);
 
+//? what does this return type mean?
+	State & operator =(const State & anotherState);
 
-//		TemplateLayer<T> & operator =(const TemplateLayer<T> & anotherLayer);
-//		TemplateLayer(const TemplateLayer & previousLayer);
 	int iSize() const;
 	int jSize() const;
 	int kSize() const;
