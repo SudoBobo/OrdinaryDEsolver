@@ -34,8 +34,8 @@ int main()
 // Godunov's example
 
 	double a = 0.0;
-	double b = 100.0;
-	double time = 1000;
+	double b = 10.0;
+	double time = 10.0;
 
 	double h = 0.01;
 	double tau = 0.01;
@@ -43,12 +43,16 @@ int main()
 	int nSteps = int((b - a) / h);
 	int timeSteps = int (time/tau);
 	System system;
+
+	std::cout << "1" << std::endl;
+
 	for (int i = 0; i < nSteps; i++)
 	{
 			system.rho.push_back(1000);
 			system.K.push_back(1000);
 			system.c.push_back(sqrt(1000/1000));
 	}
+
 
 	State initialState (nSteps, 2, 1);
 	for (int i = 0; i < initialState.iSize(); i++)
@@ -65,15 +69,17 @@ int main()
 		}
 	}
 
+		std::cout << "3" << std::endl;
+
 	std::vector <State> state (timeSteps, initialState);
 
 	GodunovSolver godunovSolver (system, state, a, b, h, tau);
-		for (int t = 0; t < timeSteps; t++)
+		for (int t = 0; t < timeSteps - 1; t++)
 		{
 		 godunovSolver.solve();
 		}
 
-	std::cout << "So far, so good." << std::endl;
+	std::cout << "0" << std::endl;
 
 	return 0;
 }
