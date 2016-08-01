@@ -38,7 +38,7 @@ int main()
 
 	double a = 0.0;
 	double b = 10.0;
-	double time = 3.0;
+	double time = 10.0;
 
 	double h = 0.01;
 	double tau = 1;
@@ -98,7 +98,7 @@ int main()
 		 name += ".vtr";
 		 std::cout << name << std::endl;
 
-		 pName = "part0_";
+		 pName = "file";
 		 pName += std::to_string(t);
 		 pName += ".pvtr";
 		 std::cout << pName << std::endl;
@@ -109,7 +109,7 @@ int main()
 				 "<PRectilinearGrid WholeExtent=\"0 160 0 120 0 8\" GhostLevel=\"0\">\n" <<
 				 "<PPointData></PPointData>\n" <<
 				 "<PCellData>\n" <<
-					 "\t<PDataArray Name=\"v\" NumberOfComponents=\"3\" type=\"Float32\"/> \n" <<
+					 "\t<PDataArray Name=\"p\" NumberOfComponents=\"1\" type=\"Float32\"/> \n" <<
 				 "</PCellData>\n" <<
 				 "<PCoordinates>\n" <<
 					 "\t<PDataArray NumberOfComponents=\"1\" type=\"Float32\"/>\n" <<
@@ -129,7 +129,7 @@ int main()
 				 "<PointData>\n" <<
 				  "</PointData>\n" <<
 				 "<CellData>\n" <<
-				 "\t<DataArray Name=\"v\" NumberOfComponents=\"3\" type=\"Float32\">\n"
+				 "\t<DataArray Name=\"p\" NumberOfComponents=\"1\" type=\"Float32\">\n"
 				  << "\t\t";
 				 for (int i = 0; i < initialState.iSize(); i++)
 				 {
