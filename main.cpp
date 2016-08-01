@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <iomanip>
 
 #include "Solver.h"
 #include "GodunovSolver.h"
@@ -37,11 +38,13 @@ int main()
 // Godunov's example
 
 	double a = 0.0;
-	double b = 10.0;
+	double b = 100.0;
 	double time = 10.0;
 
-	double h = 0.01;
+	double h = 0.0001;
 	double tau = 1;
+
+	double zero = 0.0;
 
 	int nSteps = int((b - a) / h);
 	int timeSteps = int (time/tau);
@@ -104,12 +107,14 @@ int main()
 		 std::cout << pName << std::endl;
 
 		 std::ofstream foutP(pName);
-		 foutP << "<?xml version=\"1.0\"?>\n" <<
+//		 std::setiosflags(std::ios_base::scientific);
+		  std::cout << "scientific:\n" << std::scientific;
+		 foutP  << "<?xml version=\"1.0\"?>\n" <<
 				 "<VTKFile type=\"PRectilinearGrid\" version=\"0.1\" byte_order=\"LittleEndian\">\n" <<
 				 "<PRectilinearGrid WholeExtent=\"0 160 0 120 0 8\" GhostLevel=\"0\">\n" <<
 				 "<PPointData></PPointData>\n" <<
 				 "<PCellData>\n" <<
-					 "\t<PDataArray Name=\"p\" NumberOfComponents=\"1\" type=\"Float32\"/> \n" <<
+					 "\t<PDataArray Name=\"p\" NumberOfComponents=\"3\" type=\"Float32\"/> \n" <<
 				 "</PCellData>\n" <<
 				 "<PCoordinates>\n" <<
 					 "\t<PDataArray NumberOfComponents=\"1\" type=\"Float32\"/>\n" <<
@@ -122,18 +127,20 @@ int main()
 		 foutP.close();
 
 		 std::ofstream foutN(name);
-		 foutN << "<?xml version=\"1.0\"?>\n" <<
+		 foutN.precision(2);
+		 foutN  << "<?xml version=\"1.0\"?>\n" <<
 				 "<VTKFile type=\"RectilinearGrid\" version=\"0.1\" byte_order=\"LittleEndian\">\n" <<
 				 "<RectilinearGrid WholeExtent=\"0 160 0 120 0 8\">\n" <<
 				 "<Piece Extent=\"0 160 0 120 0 8\">\n" <<
 				 "<PointData>\n" <<
 				  "</PointData>\n" <<
 				 "<CellData>\n" <<
-				 "\t<DataArray Name=\"p\" NumberOfComponents=\"1\" type=\"Float32\">\n"
+				 "\t<DataArray Name=\"p\" NumberOfComponents=\"3\" type=\"Float32\">\n"
 				  << "\t\t";
 				 for (int i = 0; i < initialState.iSize(); i++)
 				 {
-				  foutN << state[t+1](i, 0, 0) << " ";
+
+				  foutN << std::scientific << state[t+1](i, 0, 0) << " " << zero << " " << zero << " ";
 				 }
 				 foutN << "\n";
 				 foutN << "</DataArray>\n" << "</CellData>\n"<<
