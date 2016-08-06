@@ -1,12 +1,11 @@
 #include "GodunovSolver.h"
-#include <iostream>
+
 
 GodunovSolver::GodunovSolver(const System & system, std::vector<State> & state,
 						 double a, double b, double h, double tau) :
 						Solver(system, state, a, b, h, tau)
 {
 	iSize = state[0].iSize();
-	currentPosition = 0;
 	tx = tau/h;
 
 
@@ -15,8 +14,9 @@ GodunovSolver::GodunovSolver(const System & system, std::vector<State> & state,
 void GodunovSolver::solve()
 {
 
+
 // расчитаем "потоки" для всех клеток на данном временном слое
-// move to class constuctor
+
 	aMinusP.assign(iSize, 0.0);
 	aPlusP.assign(iSize, 0.0);
 	aMinusU.assign(iSize, 0.0);
@@ -90,31 +90,21 @@ void GodunovSolver::solve()
 
 	}
 
-	double iTestF, iTestD;
 
-	iTestF = state [currentPosition](10,0,0);
-		iTestD = state [currentPosition + 1 ](10,0,0);
-
-	state[currentPosition + 1] ((iSize - 1), 0, 0) = (state[currentPosition](0, 0, 0) -
-			tx * (aPlusP[iSize - 1] + aMinusP[0]));
-	state[currentPosition ](iSize - 1, 1, 0) = (state[currentPosition](iSize - 1, 1, 0) -
-			tx * (aPlusU[iSize - 1] + aMinusU[0]));
+	state[currentPosition + 1] ((iSize - 1), 0, 0) = state[currentPosition](0, 0, 0) -
+			tx * (aPlusP[iSize - 1] + aMinusP[0]);
+	state[currentPosition ](iSize - 1, 1, 0) = state[currentPosition](iSize - 1, 1, 0) -
+			tx * (aPlusU[iSize - 1] + aMinusU[0]);
 
 
 	for (int i = 0; i < iSize - 1 ; i++)
 	{
-		state[currentPosition + 1](i, 0, 0) = (state[currentPosition](i, 0, 0) -
-				tx * (aPlusP[i] + aMinusP[i+1]));
-		state[currentPosition + 1](i, 1, 0) = (state[currentPosition](i, 1, 0) -
-				tx * (aPlusU[i] + aMinusU[i+1]));
+		state[currentPosition + 1](i, 0, 0) = state[currentPosition](i, 0, 0) -
+				tx * (aPlusP[i] + aMinusP[i+1]);
+		state[currentPosition + 1](i, 1, 0) = state[currentPosition](i, 1, 0) -
+				tx * (aPlusU[i] + aMinusU[i+1]);
 	}
-
-	iTestF = state [currentPosition](10,0,0);
-		iTestD = state [currentPosition + 1 ](10,0,0);
-std::cout << iTestF << " " << iTestD << std::endl;
 	currentPosition++;
-//	State temp (state[0].iSize(), )
-//	state.push_back(temp);
 }
 
 
