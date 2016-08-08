@@ -91,20 +91,28 @@ void GodunovSolver::solve()
 	}
 
 
-	state[currentPosition + 1] ((iSize - 1), 0, 0) = state[currentPosition](0, 0, 0) -
-			tx * (aPlusP[iSize - 1] + aMinusP[0]);
-	state[currentPosition ](iSize - 1, 1, 0) = state[currentPosition](iSize - 1, 1, 0) -
-			tx * (aPlusU[iSize - 1] + aMinusU[0]);
+//	state[currentPosition + 1] ((iSize - 1), 0, 0) = state[currentPosition](0, 0, 0) -
+//			tx * (aPlusP[iSize - 1] + aMinusP[0]);
+//	state[currentPosition ](iSize - 1, 1, 0) = state[currentPosition](iSize - 1, 1, 0) -
+//			tx * (aPlusU[iSize - 1] + aMinusU[0]);
 
 
-	for (int i = 0; i < iSize - 1 ; i++)
+//	for (int i = 0; i < iSize - 1 ; i++)
+//	{
+//		state[currentPosition + 1](i, 0, 0) = state[currentPosition](i, 0, 0) -
+//				tx * (aPlusP[i] + aMinusP[i+1]);
+//		state[currentPosition + 1](i, 1, 0) = state[currentPosition](i, 1, 0) -
+//				tx * (aPlusU[i] + aMinusU[i+1]);
+//	}
+
+
+	state[currentPosition + 1] ((iSize - 1), 0, 0) = state[currentPosition](0, 0, 0) + 1;
+
+		for (int i = 0; i < iSize - 1 ; i++)
 	{
-		state[currentPosition + 1](i, 0, 0) = state[currentPosition](i, 0, 0) -
-				tx * (aPlusP[i] + aMinusP[i+1]);
-		state[currentPosition + 1](i, 1, 0) = state[currentPosition](i, 1, 0) -
-				tx * (aPlusU[i] + aMinusU[i+1]);
-	}
-	currentPosition++;
+			state[currentPosition + 1](i, 0, 0) = state[currentPosition](i, 0, 0) + 1;
+		}
+			currentPosition++;
 }
 
 
