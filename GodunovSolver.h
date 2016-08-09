@@ -8,8 +8,8 @@ class GodunovSolver : public Solver
 {
 public:
 	void solve();
-	GodunovSolver(const System & system, std::vector<State> & state,
-							 double a, double b, double h, double tau);
+	GodunovSolver(const System & system, State & currentState, State & nextState,
+				  double a, double b, double h, double tau);
 protected:
 	int    iSize;
 	double alphaN1;

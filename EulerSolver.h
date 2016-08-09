@@ -7,8 +7,8 @@
 //{
 //public:
 //	void solve();
-//	EulerSolver(const System & system, State & state,
-//							 double a, double b, double h);
+//	EulerSolver(const System & system, State & currentState, State & nextState,
+//double a, double b, double h, double tau);
 //};
 
 //#endif // EULERSOLVER_H

@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     Solver.cpp \
     EulerSolver.cpp \
     RungeKuttaSolver.cpp \
-    GodunovSolver.cpp
+    GodunovSolver.cpp \
+    Writer.cpp
 
 HEADERS += \
     System.h \
@@ -17,5 +18,6 @@ HEADERS += \
     Solver.h \
     EulerSolver.h \
     RungeKuttaSolver.h \
-    GodunovSolver.h
+    GodunovSolver.h \
+    Writer.h
 

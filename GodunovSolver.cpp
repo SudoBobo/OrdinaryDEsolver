@@ -1,11 +1,12 @@
 #include "GodunovSolver.h"
 
 
-GodunovSolver::GodunovSolver(const System & system, std::vector<State> & state,
-						 double a, double b, double h, double tau) :
-						Solver(system, state, a, b, h, tau)
+GodunovSolver::GodunovSolver(const System & system, State & currentState,
+							 State & nextState,
+							 double a, double b, double h, double tau) :
+						Solver(system, currentState, nextState, a, b, h, tau)
 {
-	iSize = state[0].iSize();
+	iSize = currentState.iSize();
 	tx = tau/h;
 
 
@@ -22,11 +23,11 @@ void GodunovSolver::solve()
 	aMinusU.assign(iSize, 0.0);
 	aPlusU.assign(iSize, 0.0);
 
-	deltaQN1 = state[currentPosition](0, 0, 0) -
-			state[currentPosition](iSize - 1, 0, 0);
+	deltaQN1 = currentState(0, 0, 0) -
+			currentState(iSize - 1, 0, 0);
 
-	deltaQN2 = state[currentPosition](0, 1, 0) -
-			state[currentPosition](iSize - 1, 1, 0);
+	deltaQN2 = currentState(0, 1, 0) -
+			currentState(iSize - 1, 1, 0);
 
 	alphaN1 = (-1.0 * deltaQN1/system.rho[0] +
 			  system.c[0] * deltaQN2) /
@@ -56,11 +57,11 @@ void GodunovSolver::solve()
 
 	for (int i = 1; i < iSize; i++)
 	{
-		deltaQN1 = state[currentPosition](i, 0, 0) -
-				state[currentPosition](i-1, 0, 0);
+		deltaQN1 = currentState(i, 0, 0) -
+				currentState(i-1, 0, 0);
 
-		deltaQN2 = state[currentPosition](i, 1, 0) -
-				state[currentPosition](i-1, 1, 0);
+		deltaQN2 = currentState(i, 1, 0) -
+				currentState(i-1, 1, 0);
 
 		alphaN1 = (-1.0 * deltaQN1/system.rho[i] +
 				  system.c[i] * deltaQN2) /
@@ -91,28 +92,27 @@ void GodunovSolver::solve()
 	}
 
 
-//	state[currentPosition + 1] ((iSize - 1), 0, 0) = state[currentPosition](0, 0, 0) -
-//			tx * (aPlusP[iSize - 1] + aMinusP[0]);
-//	state[currentPosition ](iSize - 1, 1, 0) = state[currentPosition](iSize - 1, 1, 0) -
-//			tx * (aPlusU[iSize - 1] + aMinusU[0]);
+	nextState ((iSize - 1), 0, 0) = currentState(iSize - 1, 0, 0) -
+			tx * (aPlusP[iSize - 1] + aMinusP[0]);
+	nextState(iSize - 1, 1, 0) = currentState(iSize - 1, 1, 0) -
+			tx * (aPlusU[iSize - 1] + aMinusU[0]);
 
 
-//	for (int i = 0; i < iSize - 1 ; i++)
-//	{
-//		state[currentPosition + 1](i, 0, 0) = state[currentPosition](i, 0, 0) -
-//				tx * (aPlusP[i] + aMinusP[i+1]);
-//		state[currentPosition + 1](i, 1, 0) = state[currentPosition](i, 1, 0) -
-//				tx * (aPlusU[i] + aMinusU[i+1]);
-//	}
-
-
-	state[currentPosition + 1] ((iSize - 1), 0, 0) = state[currentPosition](0, 0, 0) + 1;
-
-		for (int i = 0; i < iSize - 1 ; i++)
+	for (int i = 0; i < iSize - 1 ; i++)
 	{
-			state[currentPosition + 1](i, 0, 0) = state[currentPosition](i, 0, 0) + 1;
-		}
-			currentPosition++;
+		nextState(i, 0, 0) = currentState(i, 0,		0) -
+				tx * (aPlusP[i] + aMinusP[i+1]);
+		nextState(i, 1, 0) = currentState(i, 1, 0) -
+				tx * (aPlusU[i] + aMinusU[i+1]);
+	}
+
+
+//	nextState((iSize - 1), 0, 0) = currentState(0, 0, 0) + 1;
+
+//		for (int i = 0; i < iSize - 1 ; i++)
+//	{
+//			nextState(i, 0, 0) = currentState(i, 0, 0) + 1;
+//		}
 }
 
 
