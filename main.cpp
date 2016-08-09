@@ -9,15 +9,15 @@
 //#include "RungeKuttaSolver.h"
 
 
-double triangle (double lN1, double lN2, double x);
+double triangle (double lN1, double lN2, double x, double t);
 
 int main()
 {
 	// стоит ли так сделать с остальными аргуметнами?
 
-	double a = 0.0;
-	double b = 520.0;
-	double h = 1.0;
+	double a   = 0.0;
+	double b   = 520.0;
+	double h   = 1.0;
 
 	nSpatialSteps =  static_cast <int> ((b - a) / h);
 
@@ -34,36 +34,64 @@ int main()
 
 	// make it with classes and/or lambda functions
 	State  initialState(nSpatialSteps, nVariables, methodRang + 1);
+
+	double lN1 = 0.0;
+	double lN2 = 20.0;
+	double t = 0;
 	double x;
 	for (int i = 0; i < nSpatialSteps; i++)
 	{
 		x = i * h;
-		initialState(i, 0, 0) = triangle(a, b, x);
+		initialState(i, 0, 0) = triangle(lN1, lN2, x, t);
 	}
 
+	//?
 
 	State  currentState(nSpatialSteps, nVariables, methodRang + 1);
+	currentState = initialState;
 	State  nextState(nSpatialSteps, nVariables, methodRang + 1);
 
+	State  currentAnalyticState(nSpatialSteps, nVariables, 1);
+	currentAnalyticState = initialState;
 
-	Writer dataWriter(currentState, "part0_", "file", "/home/bobo/galerkinData/",
+	State  error (nSpatialSteps, nVariables, 1);
+
+
+	Writer dataWriter(currentState, "part0_", "file",
+					  "/home/bobo/galerkinData/",
 				 precision, gridSize);
 
-	Writer errorWriter(currentState, "part0_", "file", "/home/bobo/galerkinError/",
+	Writer analyticWriter(currentState, "part0_", "file",
+						  "/home/bobo/galerkinAnalytic/",
+				 precision, gridSize);
+
+	Writer errorWriter(error, "part0_", "file", "/home/bobo/galerkinError/",
 				 precision, gridSize);
 
 	dataWriter.clean();
 	errorWriter.clean();
-
-	dataWriter.write(0);
+	analyticWriter.chlean();
 
 	GalerkinSolver galerkinSolver ();
 
-	for (int t = 1; t < nTimeSteps; t++)
+	for (int i = 0; i < nTimeSteps - 1; i++)
 	{
+	  computeError(error, currentState, currentAnalyticState);
 
-	  galerkinSolver.solve(t);
+	  errorWriter.write(t);
+	  dataWriter.write(t);
+	  analyticWriter.write(t);
+
+	  galerkinSolver.solve();
 	  currentState = nextState;
+	  limiter(currentState);
+
+	  for (int j = 0; j < nSpatialSteps; j++)
+	  {
+		  x = j * h;
+		  t = i * tau;
+		  currentAnalyticState(j, 0, 0) = triangle(lN1, lN2, x, t);
+	  }
 
 	}
 // solving
@@ -74,17 +102,22 @@ int main()
 	return 0;
 }
 
-double triangle (double lN1, double lN2, double x)
+double triangle (double lN1, double lN2, double x, double t)
 {
 
 	//?
-	if ((lN1 <= x) && (x <= (0.5 * (lN1 + lN2))))
-		return (2 * (x - lN1)) / (lN2 - lN1);
+	if (( 0.0 <= t) && (t <= (0.5 * (lN2 - lN1))))
+	{
+		if ((lN1 <= x) && (x <= (0.5 * (lN1 + lN2))))
+			return (2 * (x - lN1)) / (lN2 - lN1 + 2.0 * t);
 
-	if (((0.5 * (lN1 + lN2)) < x) && ( x <= lN2))
-		return (2 * (lN2 - x)) / (lN2 - lN1);
+		if (((0.5 * (lN1 + lN2)) < x) && ( x <= lN2))
+			return (2 * (lN2 - x)) / (lN2 - lN1 - 2.0 * t);
 
-	return 0;
+		return 0;
+	}
+
+
 }
 
 
