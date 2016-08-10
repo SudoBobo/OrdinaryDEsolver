@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     EulerSolver.cpp \
     RungeKuttaSolver.cpp \
     GodunovSolver.cpp \
-    Writer.cpp
+    Writer.cpp \
+    GalerkinSolver.cpp
 
 HEADERS += \
     System.h \
@@ -19,5 +20,6 @@ HEADERS += \
     EulerSolver.h \
     RungeKuttaSolver.h \
     GodunovSolver.h \
-    Writer.h
+    Writer.h \
+    GalerkinSolver.h
 

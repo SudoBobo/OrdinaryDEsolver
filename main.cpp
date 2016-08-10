@@ -4,13 +4,14 @@
 #include "Writer.h"
 #include "Solver.h"
 #include "GodunovSolver.h"
-
+#include "GalerkinSolver.h"
 //#include "EulerSolver.h"
 //#include "RungeKuttaSolver.h"
 
 
 double triangle (double lN1, double lN2, double x, double t);
 double rectangle (double lN1, double lN2, double x, double t);
+
 void limiterMUSCL (State & state);
 void computeError (State & error, State & currentState,
 				   State & currentAnalyticState);
@@ -26,11 +27,12 @@ int main()
 	int nSpatialSteps =  static_cast <int> ((b - a) / h);
 
 	double T   = 1000.0;
+	//!!!
 	double courantNumber = 1.0;
 	double tau = courantNumber;
 
 	int nTimeSteps = static_cast <int> (T / tau);
-	System system;
+
 
 	const int nVariables = 1;
 	const int methodRang = 0;
@@ -63,33 +65,38 @@ int main()
 
 
 	Writer dataWriter(currentState, "part0_", "file",
-					  "/home/bobo/galerkinData/",
+					  "/home/bobo/galerkin/galerkinData/",
 				 precision, gridSize);
 
 	Writer analyticWriter(currentAnalyticState, "part0_", "file",
-						  "/home/bobo/galerkinAnalytic/",
+						  "/home/bobo/galerkin/galerkinAnalytic/",
 				 precision, gridSize);
 
-	Writer errorWriter(error, "part0_", "file", "/home/bobo/galerkinError/",
+	Writer errorWriter(error, "part0_", "file", "/home/bobo/galerkin/galerkinError/",
 				 precision, gridSize);
 
-	//dataWriter.clean();
-	//errorWriter.clean();
+	dataWriter.clean();
+	errorWriter.clean();
 	analyticWriter.clean();
-
-	//GalerkinSolver galerkinSolver ();
+	System system(currentState, h);
+	GalerkinSolver galerkinSolver (system, currentState, nextState, a, b, h,
+								   tau);
 
 	for (int i = 0; i < nTimeSteps - 1; i++)
 	{
-	  //computeError(error, currentState, currentAnalyticState);
+	  computeError(error, currentState, currentAnalyticState);
 
-	  //errorWriter.write(t);
-	 // dataWriter.write(t);
+	  errorWriter.write(t);
+	  dataWriter.write(t);
 	  analyticWriter.write(t);
 
-	  //galerkinSolver.solve();
-	  //currentState = nextState;
-	  //limiterMUSCL(currentState);
+	   galerkinSolver.solve();
+	  for (int j = 0; j < nSpatialSteps; j++)
+	  {
+		nextState.value(j, 0) = nextState(j, 0, 0) * 1.0;
+	  }
+		//limiterMUSCL(nextState);
+		currentState = nextState;
 
 	  for (int j = 0; j < nSpatialSteps; j++)
 	  {
@@ -98,11 +105,6 @@ int main()
 		  currentAnalyticState(j, 0, 0) = triangle(lN1, lN2, x, t);
 	  }
 	}
-// solving
-// using limiter
-// writing data and error files
-
-
 	return 0;
 }
 
@@ -178,9 +180,12 @@ void computeError (State & error, State & currentState,
 {
 	for (int i = 0; i < error.iSize(); i++)
 	{
-		error(i, 0, 0) = currentAnalyticState(i, 0, 0) - currentState(i, 0, 0);
+		error.value(i, 0) = currentAnalyticState.value(i, 0) -
+							currentState.value(i, 0);
 	}
 }
+
+
 
 //	RungeKutta/Euler example
 //	std::vector <double> yInitial = {0.8, 2.0};
