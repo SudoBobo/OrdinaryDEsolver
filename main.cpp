@@ -22,7 +22,7 @@ int main()
 
 	double a   = 0.0;
 	double b   = 520.0;
-	double h   = 0.1;
+	double h   = 1;
 
 	int nSpatialSteps =  static_cast <int> ((b - a) / h);
 
@@ -36,7 +36,7 @@ int main()
 
 	const int nVariables = 1;
 	const int methodRang = 0;
-	const int precision  = 2;
+	const int precision  = 6;
 	std::vector <int> gridSize = {520, 0, 0};
 
 	// make it with classes and/or lambda functions
