@@ -60,7 +60,7 @@ void Writer::write(int stepNumber)
 		std::ofstream foutP(m_path + pName);
 		foutP  << "<?xml version=\"1.0\"?>\n" <<
 		"<VTKFile type=\"PRectilinearGrid\" version=\"0.1\" byte_order=\"LittleEndian\">\n" <<
-		"<PRectilinearGrid WholeExtent=\"0 " << m_gridSize[0] <<" 0 " << m_gridSize[1] <<  " 0 " << m_gridSize[2] << "\" GhostLevel=\"0\">\n" <<
+		"<PRectilinearGrid WholeExtent=\"0 " << m_gridSize[0]  <<" 0 " << m_gridSize[1]  <<  " 0 " << m_gridSize[2] << "\" GhostLevel=\"0\">\n" <<
 		"<PPointData></PPointData>\n" <<
 		"<PCellData>\n" <<
 			"\t<PDataArray Name=\"p\" NumberOfComponents=\"3\" type=\"Float32\"/> \n" <<
@@ -70,7 +70,7 @@ void Writer::write(int stepNumber)
 			"\t<PDataArray NumberOfComponents=\"1\" type=\"Float32\"/>\n" <<
 			"\t<PDataArray NumberOfComponents=\"1\" type=\"Float32\"/>\n" <<
 		"</PCoordinates>\n" <<
-		"<Piece Extent=\"0 " << m_gridSize[0] << " 0 " << m_gridSize[1] << " 0 " << m_gridSize[2] << "\" Source=\"" << fName << "\" />\n" <<
+		"<Piece Extent=\"0 " << m_gridSize[0]  << " 0 " << m_gridSize[1] << " 0 " << m_gridSize[2] << "\" Source=\"" << fName << "\" />\n" <<
 		"</PRectilinearGrid>\n" <<
 		"</VTKFile>";
 		foutP.close();
@@ -79,7 +79,7 @@ void Writer::write(int stepNumber)
 		foutN.precision(m_precision);
 		foutN  << "<?xml version=\"1.0\"?>\n" <<
 		"<VTKFile type=\"RectilinearGrid\" version=\"0.1\" byte_order=\"LittleEndian\">\n" <<
-		"<RectilinearGrid WholeExtent=\" 0 " << m_gridSize[0] << " 0 " << m_gridSize[1] << " 0 " << m_gridSize[2] << "\">\n" <<
+		"<RectilinearGrid WholeExtent=\" 0 " << m_gridSize[0]  << " 0 " << m_gridSize[1]  << " 0 " << m_gridSize[2]  << "\">\n" <<
 		"<Piece Extent=\"0 " << m_gridSize[0] << " 0 " << m_gridSize[1] << " 0 " << m_gridSize[2] << "\">\n" <<
 		"<PointData>\n" <<
 		 "</PointData>\n" <<

@@ -14,9 +14,7 @@ public:
 //	static double computeDerivativeNo1 (double t,
 //										 std::vector <double> & y);
 //	std::vector <double (*) (double, std::vector<double> &) > functions;
-	std::vector <double> rho;
-	std::vector <double> K;
-	std::vector <double> c;
+
 
 };
 #endif // SYSTEM_H

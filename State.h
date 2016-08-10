@@ -14,6 +14,10 @@ public:
 	double   operator()  (int i, int j, int k) const;
 	double & operator()  (int i, int j, int k);
 
+	double value   (int i, int j) const;
+	double & value (int i, int j);
+
+
 //? what does this return type mean?
 	State & operator =(const State & anotherState);
 
@@ -23,6 +27,8 @@ public:
 
 private:
 	double *** m_state;
+	double **  m_value;
+	// i == pointN, j == valueN, k == basisFunctionN
 	int        m_iSize, m_jSize, m_kSize;
 
 };

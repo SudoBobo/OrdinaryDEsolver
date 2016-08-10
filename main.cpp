@@ -10,6 +10,10 @@
 
 
 double triangle (double lN1, double lN2, double x, double t);
+double rectangle (double lN1, double lN2, double x, double t);
+void limiterMUSCL (State & state);
+void computeError (State & error, State & currentState,
+				   State & currentAnalyticState);
 
 int main()
 {
@@ -17,20 +21,21 @@ int main()
 
 	double a   = 0.0;
 	double b   = 520.0;
-	double h   = 1.0;
+	double h   = 0.1;
 
-	nSpatialSteps =  static_cast <int> ((b - a) / h);
+	int nSpatialSteps =  static_cast <int> ((b - a) / h);
 
 	double T   = 1000.0;
-	double tau = 1.0;
+	double courantNumber = 1.0;
+	double tau = courantNumber;
 
-	nTimeSteps = static_cast <int> (T / tau);
+	int nTimeSteps = static_cast <int> (T / tau);
 	System system;
 
 	const int nVariables = 1;
 	const int methodRang = 0;
 	const int precision  = 2;
-	std::vector <int> gridSize = {20, 20, 8};
+	std::vector <int> gridSize = {520, 0, 0};
 
 	// make it with classes and/or lambda functions
 	State  initialState(nSpatialSteps, nVariables, methodRang + 1);
@@ -61,30 +66,30 @@ int main()
 					  "/home/bobo/galerkinData/",
 				 precision, gridSize);
 
-	Writer analyticWriter(currentState, "part0_", "file",
+	Writer analyticWriter(currentAnalyticState, "part0_", "file",
 						  "/home/bobo/galerkinAnalytic/",
 				 precision, gridSize);
 
 	Writer errorWriter(error, "part0_", "file", "/home/bobo/galerkinError/",
 				 precision, gridSize);
 
-	dataWriter.clean();
-	errorWriter.clean();
-	analyticWriter.chlean();
+	//dataWriter.clean();
+	//errorWriter.clean();
+	analyticWriter.clean();
 
-	GalerkinSolver galerkinSolver ();
+	//GalerkinSolver galerkinSolver ();
 
 	for (int i = 0; i < nTimeSteps - 1; i++)
 	{
-	  computeError(error, currentState, currentAnalyticState);
+	  //computeError(error, currentState, currentAnalyticState);
 
-	  errorWriter.write(t);
-	  dataWriter.write(t);
+	  //errorWriter.write(t);
+	 // dataWriter.write(t);
 	  analyticWriter.write(t);
 
-	  galerkinSolver.solve();
-	  currentState = nextState;
-	  limiter(currentState);
+	  //galerkinSolver.solve();
+	  //currentState = nextState;
+	  //limiterMUSCL(currentState);
 
 	  for (int j = 0; j < nSpatialSteps; j++)
 	  {
@@ -92,7 +97,6 @@ int main()
 		  t = i * tau;
 		  currentAnalyticState(j, 0, 0) = triangle(lN1, lN2, x, t);
 	  }
-
 	}
 // solving
 // using limiter
@@ -104,22 +108,79 @@ int main()
 
 double triangle (double lN1, double lN2, double x, double t)
 {
-
 	//?
+
 	if (( 0.0 <= t) && (t <= (0.5 * (lN2 - lN1))))
 	{
-		if ((lN1 <= x) && (x <= (0.5 * (lN1 + lN2))))
+		if ((lN1 <= x) && (x <= (0.5 * (lN1 + lN2) + t)))
 			return (2 * (x - lN1)) / (lN2 - lN1 + 2.0 * t);
 
-		if (((0.5 * (lN1 + lN2)) < x) && ( x <= lN2))
+		if (((0.5 * (lN1 + lN2) + t) < x) && ( x <= lN2))
 			return (2 * (lN2 - x)) / (lN2 - lN1 - 2.0 * t);
 
-		return 0;
+		if (!((lN1 <= x) && (x <= lN2)))
+			return 0.0;
 	}
 
+	if (( 0.5 * (lN2 - lN1)) < t)
+	{
+		if ((lN1 <= x) && (x <= sqrt(0.5 * (lN2 - lN1) * (lN2 - lN1 + 2.0 * t))))
+			return ((2.0 * (x - lN1))/(lN2 - lN1 + 2.0 * t));
+		return 0.0;
+	}
+
+	return 0;
+}
+
+double rectangle (double lN1, double lN2, double x, double t)
+{
+	if (t == 0)
+	{
+		std::cout << "O" << std::endl;
+		if ((lN1 <= x) && (x <= lN2))
+			return 1.0;
+		if (!((lN1 <= x) && (x <= lN2)))
+			return 0.0;
+	}
+
+	if (( 0.0 < t) && (t <= (2.0 * (lN2 - lN1))))
+	{
+
+		if ((lN1 <= x) && (x <= (lN1 + t)))
+			return (x - lN1) / t;
+
+		if (((lN1 + t) <= x) && (x <= (lN2 + 0.5 * t)))
+			return 1.0;
+
+		if (!((lN1 <= x) && (x <= lN2 + 0.5 * t)))
+			return 0.0;
+	}
+
+	if ((2.0 * (lN2 - lN1)) < t)
+	{
+
+		if ((x <= lN1) && (x <= (lN1 + sqrt(2.0 * (lN2 - lN1) * t))))
+			return (x - lN1) / t;
+
+		if (!((x <= lN1) && (x <= (lN1 + sqrt(2.0 * (lN2 - lN1) * t)))))
+			return 0.0;
+	}
 
 }
 
+void limiterMUSCL(State & state)
+{
+
+}
+
+void computeError (State & error, State & currentState,
+				   State & currentAnalyticState)
+{
+	for (int i = 0; i < error.iSize(); i++)
+	{
+		error(i, 0, 0) = currentAnalyticState(i, 0, 0) - currentState(i, 0, 0);
+	}
+}
 
 //	RungeKutta/Euler example
 //	std::vector <double> yInitial = {0.8, 2.0};

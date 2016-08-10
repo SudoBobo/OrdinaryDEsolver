@@ -10,11 +10,19 @@ State::State(int iSize, int jSize, int kSize)
 	this->m_kSize = kSize;
 
 	m_state = new double** [m_iSize];
-	for (int i = 0; i < m_iSize; i++) {
+	for (int i = 0; i < m_iSize; i++)
+	{
 		  m_state[i] = new double* [m_jSize];
-		  for (int j = 0; j < m_jSize; j++) {
+		  for (int j = 0; j < m_jSize; j++)
+		  {
 			  m_state[i][j] = new double[m_kSize];
 		  }
+	}
+
+	m_value = new double* [m_iSize];
+	for (int i = 0; i < m_iSize; i++)
+	{
+		  m_value[i] = new double [m_jSize];
 	}
 
 }
@@ -26,13 +34,26 @@ State::State(const State & anotherState)
 	this->m_kSize = anotherState.kSize();
 
 	m_state = new double** [m_iSize];
-	for (int i = 0; i < m_iSize; i++) {
+	for (int i = 0; i < m_iSize; i++)
+	{
 		  m_state[i] = new double* [m_jSize];
-		  for (int j = 0; j < m_jSize; j++) {
+		  for (int j = 0; j < m_jSize; j++)
+		  {
 			  m_state[i][j] = new double[m_kSize];
-			  for (int k = 0; k < m_kSize; k++) {
+			  for (int k = 0; k < m_kSize; k++)
+			  {
 				  m_state[i][j][k] = anotherState(i, j, k);
 			  }
+		  }
+	}
+
+	m_value = new double* [m_iSize];
+	for (int i = 0; i < m_iSize; i++)
+	{
+		  m_value[i] = new double [m_jSize];
+		  for (int j = 0; j < m_jSize; j++)
+		  {
+			  m_value[i][j] = anotherState.value(i, j);
 		  }
 	}
 }
@@ -81,6 +102,17 @@ State & State:: operator =(const State & anotherState)
 			  }
 		  }
 	}
+
+	m_value = new double* [m_iSize];
+	for (int i = 0; i < m_iSize; i++)
+	{
+		  m_value[i] = new double [m_jSize];
+		  for (int j = 0; j < m_jSize; j++)
+		  {
+			  m_value[i][j] = anotherState.value(i, j);
+		  }
+	}
+
 	return *this;
 }
 
@@ -97,4 +129,21 @@ int State::jSize() const
 int State::kSize() const
 {
 	return m_kSize;
+}
+
+
+double State::value (int i, int j) const
+{
+	if((i > m_iSize) || (j > m_jSize) ||(i < 0)||(j<0))
+		throw std::range_error("Try to get an access to point that doesn't exist");
+
+	return m_value[i][j];
+}
+
+double & State::value (int i, int j)
+{
+		if((i > m_iSize) || (j > m_jSize) ||(i < 0)||(j<0))
+			throw std::range_error("Try to get an access to point that doesn't exist");
+
+		return m_value[i][j];
 }
