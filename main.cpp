@@ -43,8 +43,10 @@ int main()
 
 	double T   = 1000.0;
 	//!!!
-	double courantNumber = 1.0;
-	double tau = courantNumber;
+
+	double y = 1.0;
+	double courantNumber = 0.1;
+	double tau = (courantNumber * h) / y;
 
 	int nTimeSteps = static_cast <int> (T / tau);
 
@@ -52,7 +54,9 @@ int main()
 	const int nVariables = 1;
 	const int methodRang = 0;
 	const int precision  = 6;
-	std::vector <int> gridSize = {520, 0, 0};
+
+	int xGridSize = nSpatialSteps * (methodRang + 1);
+	std::vector <int> gridSize = {xGridSize, 0, 0};
 
 	// make it with classes and/or lambda functions
 	State  initialState(nSpatialSteps, nVariables, methodRang + 1);
@@ -106,10 +110,7 @@ int main()
 	  analyticWriter.write(t);
 
 	   galerkinSolver.solve();
-	  for (int j = 0; j < nSpatialSteps; j++)
-	  {
-		nextState.value(j, 0) = nextState(j, 0, 0) * 1.0;
-	  }
+
 		//limiterMUSCL(nextState);
 		currentState = nextState;
 
