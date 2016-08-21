@@ -18,6 +18,7 @@ void GalerkinSolver::solve()
 
 	if (currentState.kSize() == 1)
 	{
+		// dumb euler
 		nextState(0, 0, 0) = currentState(0, 0, 0) +
 							 tau * system.duN0(currentState.iSize() - 1,
 											   0, 1);
