@@ -1,6 +1,6 @@
 #include "Stream.h"
 
-Stream::Stream()
+Stream::Stream(System & system): m_system(system)
 {
 
 }

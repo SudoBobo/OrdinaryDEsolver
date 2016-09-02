@@ -1,36 +1,42 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <exception>
-#include <stdexcept>
+#include <Conditions.h>
 
+//checked
 class State
 {
 public:
-	//uniform structure constructor
-	State(int iSize, int jSize, int kSize);
+	// i == pointN, j == valueN, k == basisFunctionN
+	State(int iSize, int jSize, int kSize, Conditions & conditions );
+	~State();
 	State(const State & anotherState);
-
-	double   operator()  (int i, int j, int k) const;
+	State operator +(const State & anotherState) const;
+	State operator *(double coefficient) const;
+	double     operator ()  (int i, int j, int k) const;
+	const double *   operator ()  (int i, int j) const;
 	double & operator()  (int i, int j, int k);
+	// double * вызов верхушки
 
+	void calculateValues ();
 	double value   (int i, int j) const;
 	double & value (int i, int j);
-
+	Conditions & getConditions() const;
 
 //? what does this return type mean?
-	State & operator =(const State & anotherState);
+	State & operator = (const State & anotherState);
 
 	int iSize() const;
 	int jSize() const;
 	int kSize() const;
 
+	int spatialOrder() const;
+
 private:
+	int        m_iSize, m_jSize, m_kSize;
+	Conditions & m_conditions;
 	double *** m_state;
 	double **  m_value;
-	// i == pointN, j == valueN, k == basisFunctionN
-	int        m_iSize, m_jSize, m_kSize;
-
 };
 
 #endif // STATE_H

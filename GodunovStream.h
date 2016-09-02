@@ -1,15 +1,13 @@
 #ifndef GODUNOVSTREAM_H
 #define GODUNOVSTREAM_H
 
-
-class GodunovStream
+#include "Stream.h"
+//checked
+class GodunovStream: public Stream
 {
 public:
-	GodunovStream();
-
-signals:
-
-public slots:
+	GodunovStream(System & system);
+	double operator()(double uA, double uB);
 };
 
 #endif // GODUNOVSTREAM_H

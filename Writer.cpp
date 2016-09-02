@@ -1,13 +1,16 @@
 #include "Writer.h"
+#include "State.h"
 
 Writer::Writer(State & source,
 			   std::__cxx11::string generalFileName,
 			   std::__cxx11::string generalHeaderName,
 			   std::__cxx11::string path,
-			   int precision, std::vector <int> & gridSize) :
-			m_source(source), m_gridSize(gridSize),
-			m_generalFileName(generalFileName),
-			m_generalHeaderName (generalHeaderName), m_path(path)
+			   int precision, std::vector <int> & gridSize,
+			   Conditions & conditions) :
+			m_source(source), m_generalFileName(generalFileName),
+			m_generalHeaderName (generalHeaderName), m_path(path),
+			m_gridSize(gridSize),
+			m_conditions(conditions)
 {
 	m_precision = precision;
 }
@@ -24,13 +27,13 @@ void Writer::clean()
 	command += " ";
 	command += m_path;
 	command += "*.vtr";
-	std::system(command.c_str());
+	int ifCommandExecuted = std::system(command.c_str());
 
 	command = "rm";
 	command += " ";
 	command += m_path;
 	command += "*.pvtr";
-	std::system(command.c_str());
+	ifCommandExecuted = std::system(command.c_str());
 }
 
 const std::string rangeString(int range)
@@ -86,10 +89,11 @@ void Writer::write(int stepNumber)
 		"<CellData>\n" <<
 			"\t<DataArray Name=\"p\" NumberOfComponents=\"3\" type=\"Float32\">\n"
 		 << "\t\t";
+		m_source.calculateValues();
 		for (int i = 0; i < m_source.iSize(); i++)
 		{
 
-		 foutN << std::scientific << m_source(i, 0, 0) << " " << 0 << " " << 0 << " ";
+		 foutN << std::scientific << m_source.value(i, 0) << " " << 0 << " " << 0 << " ";
 		}
 		foutN << "\n";
 		foutN << "</DataArray>\n" << "</CellData>\n"<<
@@ -108,4 +112,16 @@ void Writer::write(int stepNumber)
 		foutN.close();
 }
 
+void Writer::GNUplot(int /*frameN*/)
+{
+	static double x;
 
+	std::ofstream fout("fileForPlot");
+	m_source.calculateValues();
+	for (int i = 0; i < m_source.iSize(); i++)
+	{
+	 x = i * m_conditions.getH();
+	 fout << std::scientific << x << "\t" << m_source.value(i, 0)  << std::endl;
+	}
+	fout.close();
+}

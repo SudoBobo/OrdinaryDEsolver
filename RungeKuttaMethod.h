@@ -1,15 +1,16 @@
 #ifndef RUNGEKUTTAMETHOD_H
 #define RUNGEKUTTAMETHOD_H
 
+#include "Method.h"
 
-class RungeKuttaMethod
+//checked
+class RungeKuttaMethod: public Method
 {
 public:
-	RungeKuttaMethod();
+	RungeKuttaMethod(Solver & solver, Limiter & limiter, Conditions & Conditions);
+	void calculateNext();
+private:
 
-signals:
-
-public slots:
 };
 
 #endif // RUNGEKUTTAMETHOD_H
