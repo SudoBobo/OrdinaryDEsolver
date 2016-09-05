@@ -1,14 +1,15 @@
 #ifndef MUSCLLIMITER_H
 #define MUSCLLIMITER_H
 
-#include "Limiter.h"
-//сhecked
-class MUSCLLimiter: public Limiter
+
+class MUSCLLimiter
 {
 public:
-	MUSCLLimiter(State & originalState, Conditions & conditions);
-	void operator ()(int jPrevious, int j, int jNext, double vDx);
-	void limit();
+	MUSCLLimiter();
+
+signals:
+
+public slots:
 };
 
 #endif // MUSCLLIMITER_H
