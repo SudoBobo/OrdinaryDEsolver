@@ -1,6 +1,7 @@
 #ifndef EULERSYSTEMSOLVER_H
 #define EULERSYSTEMSOLVER_H
 
+#include "SystemSolver.h"
 
 class EulerSystemSolver: public SystemSolver
 {

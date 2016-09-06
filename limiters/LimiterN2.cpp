@@ -1,7 +1,7 @@
-#include "LimiterN2.h"
+#include "Limiter.h"
 
-LimiterN2::LimiterN2()
+Limiter::Limiter(Conditions * conditions)
 {
-
+ m_conditions = conditions;
 }
 

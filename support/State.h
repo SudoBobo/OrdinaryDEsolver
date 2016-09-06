@@ -20,6 +20,7 @@ public:
 	double     operator ()  (int i, int j, int k) const;
 	const double *   operator ()  (int i, int j) const;
 	double & operator()  (int i, int j, int k);
+	double * operator () (int i, int j);
 
 	std::vector <double> makeValueVector(const int j) const;
 	int valueVectorSize() const;

@@ -12,5 +12,11 @@ double * EulerSystemSolver::uNew(const int k, const int j,
 					  const double * uPrev, const double * u,
 					  const double * uNext) const
 {
+	static double uTemp[k + 1];
+
+	for (int l = 0; l < k + 1; l++)
+	{
+		uTemp[l] = m_conditions->
+	}
 	return nullptr;
 }

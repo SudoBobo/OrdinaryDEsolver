@@ -8,7 +8,7 @@ class Limiter
 public:
 	Limiter(Conditions * conditions);
 //	/ limit(coef j-1, coef j, coef j+1)
-private:
+protected:
 	Conditions * m_conditions;
 };
 

@@ -77,6 +77,14 @@ const double * State::operator()(int i, int j) const
 		return m_state[i][j];
 }
 
+double * State::operator ()(int i, int j) const
+{
+	if((i > m_iSize) || (j > m_jSize) ||(i < 0)||(j<0))
+			throw std::range_error("Try to get an access to point that doesn't exist");
+
+	return m_state[i][j];
+}
+
 double & State::operator()(int i, int j, int k)
 {
 		if((i > m_iSize) || (j > m_jSize) || (k > m_kSize) || (i <0)||(j <0)

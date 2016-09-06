@@ -1,15 +1,13 @@
 #ifndef LIMITERN2_H
 #define LIMITERN2_H
 
+#include "Limiter.h"
 
-class LimiterN2
+class LimiterN2: public Limiter
 {
 public:
-	LimiterN2();
+	LimiterN2(Conditions * conditions);
 
-signals:
-
-public slots:
 };
 
 #endif // LIMITERN2_H
